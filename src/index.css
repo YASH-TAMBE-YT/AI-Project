@@ -1,0 +1,177 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --color-ink-950: #04070f;
+  --color-ink-900: #070d1a;
+  --color-ink-850: #0a1222;
+  --color-ink-800: #0e1830;
+  --color-ink-700: #16223e;
+  --color-ink-600: #223155;
+
+  --color-mist-100: #eef3fb;
+  --color-mist-200: #d7e0f0;
+  --color-mist-300: #b3c2da;
+  --color-mist-400: #8b9cba;
+  --color-mist-500: #647696;
+  --color-mist-600: #46536e;
+
+  --color-pulse-300: #67e8f9;
+  --color-pulse-400: #22d3ee;
+  --color-pulse-500: #06b6d4;
+  --color-vit-400: #2dd4bf;
+  --color-vit-500: #14b8a6;
+  --color-alert-400: #fbbf24;
+  --color-alert-500: #f59e0b;
+  --color-crit-400: #fb7185;
+  --color-crit-500: #f43f5e;
+  --color-iris-400: #818cf8;
+  --color-iris-500: #6366f1;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-ink-950);
+  color: var(--color-mist-100);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(34, 211, 238, 0.28);
+  color: #eef3fb;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #070d1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #1c2a47;
+  border-radius: 8px;
+  border: 2px solid #070d1a;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2b3f6b;
+}
+
+/* ---------- surfaces ---------- */
+.glass {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018));
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  backdrop-filter: blur(14px);
+}
+.glass-deep {
+  background: linear-gradient(165deg, rgba(14, 24, 48, 0.85), rgba(7, 13, 26, 0.92));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.hairline {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.text-glow {
+  text-shadow: 0 0 32px rgba(34, 211, 238, 0.45);
+}
+
+/* ---------- background canvas ---------- */
+.mesh-bg {
+  background:
+    radial-gradient(1100px 540px at 85% -10%, rgba(99, 102, 241, 0.13), transparent 60%),
+    radial-gradient(900px 520px at 8% 4%, rgba(6, 182, 212, 0.12), transparent 55%),
+    radial-gradient(760px 700px at 55% 110%, rgba(20, 184, 166, 0.08), transparent 60%),
+    #04070f;
+}
+.grid-lines {
+  background-image:
+    linear-gradient(rgba(139, 156, 186, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 156, 186, 0.055) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 30%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 30%, transparent 78%);
+}
+
+/* ---------- EKG line ---------- */
+@keyframes ekg-dash {
+  0% { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+.ekg-line {
+  stroke-dasharray: 1000;
+  animation: ekg-dash 3.2s linear infinite;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.85); opacity: 0.7; }
+  70% { transform: scale(1.4); opacity: 0; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+.pulse-ring::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 1px solid rgba(34, 211, 238, 0.6);
+  animation: pulse-ring 2.2s ease-out infinite;
+}
+
+@keyframes scan-y {
+  0% { top: -12%; }
+  100% { top: 112%; }
+}
+.scanline {
+  animation: scan-y 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+.float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+/* ---------- tri-state symptom chip ---------- */
+.chip-unknown {
+  border-color: rgba(255, 255, 255, 0.09);
+  color: var(--color-mist-400);
+  background: rgba(255, 255, 255, 0.03);
+}
+.chip-present {
+  border-color: rgba(45, 212, 191, 0.55);
+  color: #99f6e4;
+  background: rgba(45, 212, 191, 0.12);
+  box-shadow: 0 0 18px -6px rgba(45, 212, 191, 0.5);
+}
+.chip-absent {
+  border-color: rgba(251, 113, 133, 0.45);
+  color: #fda4af;
+  background: rgba(244, 63, 94, 0.09);
+}
+
+/* ---------- node link ---------- */
+.navlink {
+  color: var(--color-mist-400);
+  transition: color 0.2s ease;
+}
+.navlink:hover {
+  color: var(--color-mist-100);
+}
+.navlink.active {
+  color: var(--color-pulse-400);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+.display {
+  font-family: var(--font-display);
+}
